@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>IceStom Event Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/logo.svg" type="image/svg+xml">
+</head>
+<body>
+
+<div id="gate" class="gate">
+    <div class="gate-card">
+        <img class="gate-logo" src="/logo.svg" alt="" width="64" height="64">
+        <h1 class="gate-title">IceStom</h1>
+        <p id="gate-message" class="gate-message">Connecting to your server&hellip;</p>
+        <p class="gate-hint">Panel links are generated in game with <code>/panel</code> and expire after a while.</p>
+    </div>
+</div>
+
+<div id="app" class="app" hidden>
+    <header class="topbar">
+        <div class="brand">
+            <img class="brand-logo" src="/logo.svg" alt="" width="22" height="22">
+            <span class="brand-name">IceStom</span>
+            <span class="brand-sub">event panel</span>
+        </div>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab" role="tab" data-tab="run" aria-selected="true">Run</button>
+            <button class="tab" role="tab" data-tab="build" aria-selected="false">Build</button>
+        </nav>
+
+        <div class="status">
+            <span id="status-session" class="status-session"></span>
+            <span id="status-link" class="status-dot" title="Live connection">Offline</span>
+        </div>
+    </header>
+
+    <main class="panes">
+        <section id="pane-run" class="pane" role="tabpanel">
+            <div class="column">
+                <div class="column-head">
+                    <h2>Events on disk</h2>
+                    <p class="column-sub">Select an event to run.</p>
+                </div>
+                <div id="definition-list" class="stack"></div>
+            </div>
+
+            <div class="column">
+                <div class="column-head">
+                    <h2>Running now</h2>
+                    <p class="column-sub">Updates live.</p>
+                </div>
+                <div id="event-list" class="stack"></div>
+            </div>
+        </section>
+
+        <section id="pane-build" class="pane" role="tabpanel" hidden>
+            <div class="column">
+                <div class="column-head">
+                    <h2>Event</h2>
+                    <p class="column-sub">Add stages to event.</p>
+                </div>
+
+                <div class="card">
+                    <label class="field">
+                        <span class="field-label">Display name</span>
+                        <input id="build-name" type="text" placeholder="WIBRS BritishGP" autocomplete="off">
+                    </label>
+
+                    <label class="field">
+                        <span class="field-label">File name</span>
+                        <input id="build-file" type="text" placeholder="wibrs-britishgp" autocomplete="off">
+                        <span class="field-hint">Saved into the server's <code>events/</code> folder as <code>.luau</code>.</span>
+                    </label>
+                </div>
+
+                <div id="stage-list" class="stack"></div>
+
+                <div id="stage-palette" class="palette"></div>
+
+                <div class="actions">
+                    <button id="build-save" class="button button-primary">Save event</button>
+                    <button id="build-reset" class="button">Start over</button>
+                    <span id="build-message" class="message"></span>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="column-head">
+                    <h2>Generated Luau</h2>
+                    <p class="column-sub">This is the file the server will run. Saving overwrites it.</p>
+                </div>
+                <pre id="build-preview" class="code">Nothing saved yet.</pre>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div id="modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title" class="modal-title"></h2>
+        <div id="modal-body" class="modal-body"></div>
+        <div class="actions">
+            <button id="modal-confirm" class="button button-primary"></button>
+            <button id="modal-cancel" class="button">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
