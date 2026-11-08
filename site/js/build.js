@@ -180,19 +180,20 @@ export function createBuildPane(ctx) {
             });
         }
 
-        if (option.type === 'track') {
-            const tracks = ctx.getBootstrap()?.tracks ?? [];
+        if (option.type === 'track' || option.choices) {
+            const known = option.choices ?? ctx.getBootstrap()?.tracks ?? [];
+            const empty = option.choices ? 'Choose one' : (known.length ? 'Choose a track' : 'No tracks loaded');
 
-            const options = tracks.includes(value) || !value ? tracks : [value, ...tracks];
+            const options = known.includes(value) || !value ? known : [value, ...known];
 
             const select = el('select', {
                 onChange: (event) => { stage.options[option.name] = event.currentTarget.value; },
             }, [
-                el('option', { value: '', text: tracks.length ? 'Choose a track' : 'No tracks loaded' }),
-                ...options.map((track) => el('option', { value: track, text: track })),
+                el('option', { value: '', text: empty }),
+                ...options.map((choice) => el('option', { value: choice, text: choice })),
             ]);
 
-            select.value = value ?? '';
+            select.value = value ?? option.default ?? '';
 
             return select;
         }
